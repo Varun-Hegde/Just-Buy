@@ -9,6 +9,7 @@ const morgan = require('morgan')
 
 //IMPORT ROUTES 
 const productRoutes = require('./routes/productRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 //IMPORT ERROR HANDLER AND PAGE NOT FOUND 
 const {notFound,errorHandler} = require('./middlewear/errorMiddlewear')
@@ -24,6 +25,7 @@ connectDB()
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
+app.use(express.json())
 
 //ROUTES
 app.get('/', (req, res) => {
@@ -32,7 +34,10 @@ app.get('/', (req, res) => {
 
 //PRODUCT ROUTE
 app.use('/api/products',productRoutes)
- 
+
+//USER ROUTE
+app.use('/api/users',userRoutes)
+  
 //PAGE NOT FOUND
 app.use(notFound)
 

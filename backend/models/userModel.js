@@ -1,6 +1,6 @@
 //DATABASE SCHEMA FOR USERS
 const mongoose = require('mongoose');
-//const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 const Product = require('./productModel')
 
 const userSchema = mongoose.Schema({
@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
     timestamps: true
 })
 
-/*
+
 //BEFORE SAVING THE USER, HASH THE PASSWORD
 userSchema.pre('save',async function(next){
     //IF THIS MIDDLEWEAR IS REACHED FOR UPDATE AND PASSWORD IS NOT MODIFIED, CONTINUE
@@ -43,6 +43,6 @@ userSchema.pre('save',async function(next){
 userSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword,this.password)
 }
-*/
+
 module.exports = mongoose.model('User',userSchema);
  
