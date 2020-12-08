@@ -91,9 +91,9 @@ router.get(
         
     })
 )
-
-//UPDATE USER PROFILE ROUTE
-//CAN BE ACCESSED ONLY IF LOGGED IN
+//   @desc   Update user profile
+//   @route  PUT /api/users/profile
+//   @access Private
 router.put(
     '/profile',
     protect,
