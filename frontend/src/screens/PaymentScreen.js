@@ -6,7 +6,7 @@ import {savePaymentMethod} from '../actions/cartActions'
 import CheckOutSteps from '../components/CheckoutSteps'
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import Meta from '../components/Meta'
 const PaymentScreen = ({history}) => {
     
     const cart = useSelector(state => state.cart)
@@ -46,7 +46,7 @@ const PaymentScreen = ({history}) => {
 
     return (
         <div>
-
+            <Meta title="Payment" />
             <FormContainer>
                 <CheckOutSteps step1 step2 step3 />
                 <h1>Payment Method</h1>

@@ -6,7 +6,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import {LinkContainer} from 'react-router-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-
+import Meta from '../components/Meta'
 import {listProductDetails,createProductReview,deleteProductReview} from '../actions/productActions'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants'
 
@@ -22,15 +22,14 @@ const ProductScreen = ({ match,history }) => {
 
 
   const reviewDetails = useSelector(state => state.productReviewDelete)
-  const {loading:loadingReviewDelete,error:errorReviewDelete,success:successReviewDelete} = reviewDetails
+  const {success:successReviewDelete} = reviewDetails
 
   const reviewUpdate = useSelector(state => state.productReviewUpdate)
-  const {loading:loadingReviewUpdate,error:errorReviewUpdate,success:successReviewUpdate} = reviewUpdate
+  const {success:successReviewUpdate} = reviewUpdate
 
 
   const productReviewCreate = useSelector(state => state.productReviewCreate)
   const {
-    loading:loadingProductReview,
     error:errorProductReview,
     success:successProductReview
   } = productReviewCreate
@@ -68,6 +67,7 @@ const ProductScreen = ({ match,history }) => {
 
   return (
     <>
+    <Meta title={product.name} />
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>

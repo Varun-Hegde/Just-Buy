@@ -6,7 +6,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {listProducts,deleteProduct,createProduct} from '../actions/productActions'
 import {PRODUCT_CREATE_RESET} from '../constants/productConstants'
-
+import Meta from '../components/Meta'
 
 const ProductListScreen = ({history,match}) => {
     
@@ -53,7 +53,7 @@ const ProductListScreen = ({history,match}) => {
 
     return (
         <>
-        
+        <Meta title="All Products" />
             <Row className='align-items-center'>
                 <Col>
                     <h1>Products</h1>

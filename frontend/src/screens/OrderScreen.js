@@ -1,4 +1,4 @@
-import React,{useState ,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {Button,Row,Col,ListGroup,Image,Card} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
@@ -6,12 +6,14 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {getOrderDetails,payOrder,deliverOrder} from '../actions/orderActions'
 import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from '../constants/orderConstants'
- 
+import Meta from '../components/Meta'
+
+
 const OrderScreen = ({match,history}) => {
 
     const orderId = match.params.id
     const orderDetails = useSelector(state => state.orderDetails)
-    const {order,success,error,loading} = orderDetails
+    const {order,error,loading} = orderDetails
     const dispatch = useDispatch()
     
     const orderPay = useSelector(state => state.orderPay)
@@ -34,7 +36,7 @@ const OrderScreen = ({match,history}) => {
             dispatch(getOrderDetails(orderId))
         }
          
-    },[dispatch,orderId,order,successPay,successDeliver])
+    },[dispatch,orderId,order,successPay,successDeliver,history,userInfo])
     
     
     if(!loading){
@@ -64,7 +66,7 @@ const OrderScreen = ({match,history}) => {
 
     return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
         <>
-        
+            <Meta title="All Orders" />
             <h1>Order {order._id}</h1>
             <Row>
                 <Col md={8}>

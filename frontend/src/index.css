@@ -47,3 +47,9 @@ h2 {
 input:focus {
   outline-style: none;
 }
+
+.NoProd {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}

@@ -22,7 +22,6 @@ import {
     USER_DELETE_SUCCESS,
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
-    USER_UPDATE_RESET,
     USER_UPDATE_SUCCESS
 } from '../constants/userConstants'
 import {ORDER_LIST_MY_RESET} from '../constants/orderConstants'
@@ -246,7 +245,7 @@ export const deleteUsers = (id) => async (dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             },
         }
-        const {data} = await axios.delete(
+        await axios.delete(
             `/api/users/${id}`,
             config
         )

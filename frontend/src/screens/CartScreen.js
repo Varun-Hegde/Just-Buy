@@ -2,7 +2,7 @@ import React,{useEffect} from 'react'
 import Message from '../components/Message'
 import {Link} from 'react-router-dom'
 import {Row,Col,ListGroup,Image,Form,Button,Card} from 'react-bootstrap'
-
+import Meta from '../components/Meta'
 import {useSelector,useDispatch} from 'react-redux'
 
 import {addToCart,removeFromCart} from '../actions/cartActions'
@@ -34,7 +34,7 @@ const CartScreen = ({match,location,history}) => {
 
     return (
         <>
-
+        <Meta title="Shopping Cart"/>
         <Row>
             <Col md={8}>
                 <h1>Shopping Cart</h1>

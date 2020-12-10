@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Table,Button} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {listOrders} from '../actions/orderActions'
-
+import Meta from '../components/Meta'
 
 const OrderListScreen = ({history}) => {
     
@@ -31,7 +31,7 @@ const OrderListScreen = ({history}) => {
 
     return (
         <>
-        
+            <Meta title="All Orders" />
             <h1>Orders</h1>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <Table striped bordered hover responsive className='table-sm'>

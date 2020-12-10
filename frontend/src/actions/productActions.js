@@ -10,44 +10,40 @@ import {
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_CREATE_FAIL,
     PRODUCT_CREATE_REQUEST,
-    PRODUCT_CREATE_RESET,
     PRODUCT_CREATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
     PRODUCT_UPDATE_REQUEST,
     PRODUCT_UPDATE_SUCCESS,
     PRODUCT_CREATE_REVIEW_FAIL,
     PRODUCT_CREATE_REVIEW_REQUEST,
-    PRODUCT_CREATE_REVIEW_RESET,
     PRODUCT_CREATE_REVIEW_SUCCESS,
     PRODUCT_DELETE_REVIEW_FAIL,
     PRODUCT_DELETE_REVIEW_REQUEST,
-    PRODUCT_DELETE_REVIEW_RESET,
     PRODUCT_DELETE_REVIEW_SUCCESS,
     PRODUCT_UPDATE_REVIEW_FAIL,
     PRODUCT_UPDATE_REVIEW_REQUEST,
-    PRODUCT_UPDATE_REVIEW_RESET,
     PRODUCT_UPDATE_REVIEW_SUCCESS,
     PRODUCT_REVIEW_FAIL,
     PRODUCT_REVIEW_REQUEST,
-    PRODUCT_REVIEW_RESET,
     PRODUCT_REVIEW_SUCCESS
 } from '../constants/productConstants'
 
 import axios from 'axios'
 
 //GET DETAILS OF ALL THE PRODUCTS 
-export const listProducts = () => async(dispatch) => {
+export const listProducts = (keyword='') => async(dispatch) => {
     try{
         dispatch({
             type:PRODUCT_LIST_REQUEST
         })
 
-        const {data} = await axios.get(`/api/products`)
-
+        const resp = await axios.get(`/api/products/?keyword=${keyword}`)
+        const {data} = resp
         dispatch({
             type:PRODUCT_LIST_SUCCESS,
             payload:data
         })
+        console.log(resp);
 
     }catch(error){
         dispatch({   
@@ -97,7 +93,7 @@ export const deleteProduct = (id) => async (dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             },
         }
-        const {data} = await axios.delete(
+        await axios.delete(
             `/api/products/${id}`,
             config
         )

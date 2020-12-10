@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Table,Button} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {listUsers,deleteUsers } from '../actions/userActions'
-
+import Meta from '../components/Meta'
 
 const UserListScreen = ({history}) => {
     
@@ -38,7 +38,7 @@ const UserListScreen = ({history}) => {
 
     return (
         <>
-  
+            <Meta title="All users" />
             <h1>Users</h1>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <Table striped bordered hover responsive className='table-sm'>

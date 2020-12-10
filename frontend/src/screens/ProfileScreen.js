@@ -6,9 +6,9 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getUserDetails,updateUserProfile} from '../actions/userActions'
 import {listMyOrders} from '../actions/orderActions'
-
-const ProfileScreen = ({location,history}) => {
-    //console.log(location,history);
+import Meta from '../components/Meta'
+const ProfileScreen = ({history}) => {
+    
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [name,setName] = useState('')
@@ -19,7 +19,7 @@ const ProfileScreen = ({location,history}) => {
     const dispatch = useDispatch()
 
     const userDetails = useSelector(state => state.userDetails)
-    const {loading,error,user} = userDetails
+    const {error,user} = userDetails
     
     const userLogin = useSelector(state => state.userLogin)
     const {userInfo} = userLogin
@@ -61,6 +61,7 @@ const ProfileScreen = ({location,history}) => {
 
     return (
       <>
+      <Meta title="My Profile" />
         <Row>
             <Col md={3}>
                 <h2>User Profile</h2>

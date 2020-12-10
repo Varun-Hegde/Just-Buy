@@ -8,7 +8,7 @@ import FormContainer from '../components/FormContainer'
 import { listProductDetails,updateProduct} from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import axios from 'axios'
-
+import Meta from '../components/Meta'
 const ProductEditScreen = ({ match, history,location }) => {
   const productId = match.params.id
 
@@ -96,7 +96,7 @@ const ProductEditScreen = ({ match, history,location }) => {
 
   return (
     <>
-    
+      <Meta title="Edit Product" />
       <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>

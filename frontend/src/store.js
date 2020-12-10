@@ -58,8 +58,8 @@ const reducer = combineReducers({
     orderList           : orderListReducer,
     orderDeliver        : orderDeliverReducer,
     productReviewCreate : productReviewCreateReducer,
-    productReviewDelete: productReviewDeleteReducer,
-    productReviewUpdate: productUpdateReviewReducer,
+    productReviewDelete : productReviewDeleteReducer,
+    productReviewUpdate : productUpdateReviewReducer,
     productReviewDetail : productReviewDetailReducer
 })
 

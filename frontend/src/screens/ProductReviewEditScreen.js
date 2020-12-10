@@ -5,7 +5,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import {updateProductReview,getProductReview} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-
+import Meta from '../components/Meta'
 const ProductReviewEditScreen = ({history,match}) => {
     
     const {id,reviewId} = match.params
@@ -19,7 +19,7 @@ const ProductReviewEditScreen = ({history,match}) => {
     const {loading,error,review} = reviewDetail
 
     const reviewUpdate = useSelector(state => state.productReviewUpdate)
-    const {loading:loadingUpdate,error:errorUpdate,success:successUpdate} = reviewUpdate
+    const {success:successUpdate} = reviewUpdate
     console.log(reviewUpdate);
     
     useEffect(() => {
@@ -54,6 +54,7 @@ const ProductReviewEditScreen = ({history,match}) => {
 
     return (
         <div>
+            <Meta title="Edit Review" />
             <h1>Edit Review</h1>
             {loading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}

@@ -1,11 +1,11 @@
-import React,{useState ,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {Button,Row,Col,ListGroup,Image,Card} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Message from '../components/Message'
 import CheckOutSteps from '../components/CheckoutSteps'
 import {createOrder} from '../actions/orderActions'
-
+import Meta from '../components/Meta'
 const PlaceOrderScreen = ({history}) => {
 
 
@@ -50,7 +50,7 @@ const PlaceOrderScreen = ({history}) => {
     }
     return (
         <>
-        
+        <Meta title="Place Order" />
         <CheckOutSteps step1 step2 step3 step4 />
             <Row>
                 <Col md={8}>
