@@ -10,6 +10,7 @@ const morgan = require('morgan')
 //IMPORT ROUTES 
 const productRoutes = require('./routes/productRoutes')
 const userRoutes = require('./routes/userRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 
 //IMPORT ERROR HANDLER AND PAGE NOT FOUND 
 const {notFound,errorHandler} = require('./middlewear/errorMiddlewear')
@@ -38,6 +39,9 @@ app.use('/api/products',productRoutes)
 //USER ROUTE
 app.use('/api/users',userRoutes)
   
+//ORDER ROUTE
+app.use('/api/orders',orderRoutes)
+
 //PAGE NOT FOUND
 app.use(notFound)
 
