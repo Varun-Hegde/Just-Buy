@@ -28,6 +28,8 @@ module.exports.protect = asyncHandler(async (req,res,next) => {
     
     
 })
+
+
 //CHECK WHETHER THE USER IS ADMIN. 
 //ALLOW ACCESS TO NEXT MIDDLEWEARS AND  ROUTES ONLY IF THE USER IS ADMIN
 module.exports.isAdmin = asyncHandler(async (req,res,next) => {

@@ -17,11 +17,11 @@ router.get(
     '/myorders',
     protect,
     asyncHandler(async (req,res) => {
-        //console.log("FROM MYORDERS:",req.user._id);
         const orders = await Order.find({user: req.user._id})
         res.json(orders);
     })
 )
+
 //   @desc   Create a new order
 //   @route  GET /api/orders/
 //   @access Private
@@ -44,7 +44,7 @@ router.post(
         }else{
             const order = new Order({
                 orderItems,
-                user: req.user._id,
+                user:  req.user._id,
                 shippingAddress,
                 paymentMethod,
                 itemsPrice,
@@ -78,6 +78,8 @@ router.get(
 
     })
 )
+
+
 //   @desc   Update order to paid
 //   @route  GET /api/orders/
 //   @access Private

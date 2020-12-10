@@ -91,6 +91,7 @@ router.get(
         
     })
 )
+
 //   @desc   Update user profile
 //   @route  PUT /api/users/profile
 //   @access Private
@@ -122,8 +123,11 @@ router.put(
     })
 )
 
-//GET ALL USERS
-//ONLY ACCESSED BY ADMIN
+
+//   @desc   Get all users
+//   @route  GET /api/users
+//   @access Private/Admin
+
 router.get(
     '/',
     protect,
@@ -134,8 +138,9 @@ router.get(
     })
 )
 
-//GET INDIVIDUAL USER
-//ONLY ACCESSED BY ADMIN
+//   @desc   Get a particular user
+//   @route  GET /api/users/:id
+//   @access Private/Admin
 router.get(
     '/:id',
     protect,
@@ -151,8 +156,9 @@ router.get(
     })
 )
 
-//DELETE A USER
-//ONLY ACCESSED BY ADMIN
+//   @desc   Delete a particular user
+//   @route  DELETE /api/users/:id
+//   @access Private/Admin
 router.delete(
     '/:id',
     protect,
@@ -168,9 +174,10 @@ router.delete(
     })
 )
 
+//   @desc   Update a particular user's profile
+//   @route  PUT /api/users/:id
+//   @access Private/Admin
 
-//UPDATE USER PROFILE OF A PARTICULAR USER
-//ONLY ACCESSED BY ADMIN
 router.put(
     '/:id',
     protect,
