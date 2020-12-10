@@ -108,18 +108,22 @@ router.put(
     })
 )
 
-//GET ALL ORDERS
+//   @desc   Get all orders
+//   @route  GET /api/orders/
+//   @access Private/Admin
 router.get(
     '/',  
     protect,
     isAdmin, 
     asyncHandler(async (req,res) => {
-        const orders = await Order.find({}).populate('user','id name')
+        const orders = await Order.find({}).populate('user','id name email')
         res.json(orders)
     })
 )
 
-//UPDATE ORDER DELIVERY STATUS,ACCESSED ONLY BY ADMIN
+//   @desc   Update order status
+//   @route  PUT /api/orders/deliver
+//   @access Private/Admin
 router.put(
     '/:id/deliver',
     protect,

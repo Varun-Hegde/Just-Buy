@@ -14,8 +14,23 @@ import {
     PRODUCT_CREATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
     PRODUCT_UPDATE_REQUEST,
-    PRODUCT_UPDATE_RESET,
     PRODUCT_UPDATE_SUCCESS,
+    PRODUCT_CREATE_REVIEW_FAIL,
+    PRODUCT_CREATE_REVIEW_REQUEST,
+    PRODUCT_CREATE_REVIEW_RESET,
+    PRODUCT_CREATE_REVIEW_SUCCESS,
+    PRODUCT_DELETE_REVIEW_FAIL,
+    PRODUCT_DELETE_REVIEW_REQUEST,
+    PRODUCT_DELETE_REVIEW_RESET,
+    PRODUCT_DELETE_REVIEW_SUCCESS,
+    PRODUCT_UPDATE_REVIEW_FAIL,
+    PRODUCT_UPDATE_REVIEW_REQUEST,
+    PRODUCT_UPDATE_REVIEW_RESET,
+    PRODUCT_UPDATE_REVIEW_SUCCESS,
+    PRODUCT_REVIEW_FAIL,
+    PRODUCT_REVIEW_REQUEST,
+    PRODUCT_REVIEW_RESET,
+    PRODUCT_REVIEW_SUCCESS
 } from '../constants/productConstants'
 
 import axios from 'axios'
@@ -165,6 +180,137 @@ export const updateProduct = (product) => async (dispatch,getState) => {
     }catch(error) {
         dispatch({   
             type:PRODUCT_UPDATE_FAIL,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message
+        })
+    }
+}
+
+
+//ADD A REVIEW TO A PRODUCT 
+export const createProductReview = (productId,review) => async (dispatch,getState) => {
+    try{
+        dispatch({
+            type: PRODUCT_CREATE_REVIEW_REQUEST
+        })
+ 
+        const {userLogin : {userInfo}} = getState()
+
+        const config = {
+            headers: {
+                'Content-Type' :'application/json',
+                Authorization : `Bearer ${userInfo.token}`
+            },
+        }
+        const {data} = await axios.post(
+            `/api/products/${productId}/reviews`,
+            review,
+            config
+        )
+
+        dispatch({
+            type: PRODUCT_CREATE_REVIEW_SUCCESS,
+            payload: data
+        })
+        
+    }catch(error) {
+        dispatch({   
+            type:PRODUCT_CREATE_REVIEW_FAIL,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message
+        })
+    }
+}
+
+//DELETE A REVIEW TO A PRODUCT 
+export const deleteProductReview = (productId,reviewId) => async (dispatch,getState) => {
+    try{
+        dispatch({
+            type: PRODUCT_DELETE_REVIEW_REQUEST
+        })
+ 
+        const {userLogin : {userInfo}} = getState()
+
+        const config = {
+            headers: {
+                'Content-Type' :'application/json',
+                Authorization : `Bearer ${userInfo.token}`
+            },
+        }
+        const {data} = await axios.delete(
+            `/api/products/${productId}/reviews/${reviewId}`,
+            config
+        )
+
+        dispatch({
+            type: PRODUCT_DELETE_REVIEW_SUCCESS,
+            payload: data
+        })
+        
+    }catch(error) {
+        dispatch({   
+            type:PRODUCT_DELETE_REVIEW_FAIL,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message
+        })
+    }
+}
+
+
+//GET A PRODUCT REVIEW 
+export const getProductReview = (productId,reviewId) => async (dispatch,getState) => {
+    try{
+        dispatch({
+            type: PRODUCT_REVIEW_REQUEST
+        })
+
+        const {data} = await axios.get(
+            `/api/products/${productId}/reviews/${reviewId}`,
+        )
+
+        dispatch({
+            type: PRODUCT_REVIEW_SUCCESS,
+            payload: data
+        })
+        
+    }catch(error) {
+        dispatch({   
+            type:PRODUCT_REVIEW_FAIL,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message
+        })
+    }
+}
+
+//UPDATE A PRODUCT REVIEW 
+export const updateProductReview = (productId,reviewId,review) => async (dispatch,getState) => {
+    try{
+        dispatch({
+            type: PRODUCT_UPDATE_REVIEW_REQUEST
+        })
+ 
+        const {userLogin : {userInfo}} = getState()
+
+        const config = {
+            headers: {
+                'Content-Type' :'application/json',
+                Authorization : `Bearer ${userInfo.token}`
+            },
+        }
+        const {data} = await axios.put(
+            `/api/products/${productId}/reviews/${reviewId}`,
+            review,
+            config
+        )
+
+        dispatch({
+            type: PRODUCT_UPDATE_REVIEW_SUCCESS,
+            payload: data
+        })
+        
+    }catch(error) {
+        dispatch({   
+            type:PRODUCT_UPDATE_REVIEW_FAIL,
             payload: error.response && error.response.data.message ?
                 error.response.data.message : error.message
         })

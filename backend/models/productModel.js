@@ -62,7 +62,7 @@ const productSchema = mongoose.Schema(
     timestamps: true,
   }
 )
-/*
+
 //DELETE ALL THE REVIEWS RELATED TO A PRODUCTD WHEN A PRODUCTD IS DELETED
 productSchema.post('findOneAndDelete', async function(doc) {
     if(doc){
@@ -73,7 +73,6 @@ productSchema.post('findOneAndDelete', async function(doc) {
         })
     }
 })  
-*/ 
 
 
 

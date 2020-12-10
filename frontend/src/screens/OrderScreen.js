@@ -4,20 +4,21 @@ import {Button,Row,Col,ListGroup,Image,Card} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {getOrderDetails,payOrder,} from '../actions/orderActions'
+import {getOrderDetails,payOrder,deliverOrder} from '../actions/orderActions'
 import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from '../constants/orderConstants'
  
 const OrderScreen = ({match,history}) => {
 
     const orderId = match.params.id
     const orderDetails = useSelector(state => state.orderDetails)
-    const {order,error,loading} = orderDetails
+    const {order,success,error,loading} = orderDetails
     const dispatch = useDispatch()
     
     const orderPay = useSelector(state => state.orderPay)
     const { loading: loadingPay, success: successPay } = orderPay
 
-    
+    const orderDeliver = useSelector(state => state.orderDeliver)
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -27,13 +28,13 @@ const OrderScreen = ({match,history}) => {
         if (!userInfo) {
             history.push('/login')
         }
-        if(!order || successPay ){
+        if(!order || successPay || successDeliver){
             dispatch({type: ORDER_PAY_RESET})
-    
+            dispatch({type: ORDER_DELIVER_RESET})
             dispatch(getOrderDetails(orderId))
         }
          
-    },[dispatch,orderId,order,successPay,])
+    },[dispatch,orderId,order,successPay,successDeliver])
     
     
     if(!loading){
@@ -52,16 +53,19 @@ const OrderScreen = ({match,history}) => {
             }
         dispatch(payOrder(orderId,payMentResult))
         dispatch({type: ORDER_PAY_RESET})
-
+        dispatch({type: ORDER_DELIVER_RESET})
         dispatch(getOrderDetails(orderId))
     }
 
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order))
+    }
 
 
     return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
         <>
         
-            <h1>Your Order</h1>
+            <h1>Order {order._id}</h1>
             <Row>
                 <Col md={8}>
                     <ListGroup variant="flush">
@@ -142,7 +146,12 @@ const OrderScreen = ({match,history}) => {
                                     <Col>${order.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
-                            
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Tax</Col>
+                                    <Col>${order.taxPrice}</Col>
+                                </Row>
+                            </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
@@ -158,7 +167,22 @@ const OrderScreen = ({match,history}) => {
                                     </Button>
                                 </ListGroup.Item>
                             ) }
-                            
+                            {loadingDeliver && <Loader />}     
+                            {userInfo &&
+                                userInfo.isAdmin &&
+                                order.isPaid &&
+                                !order.isDelivered && (
+                                <ListGroup.Item>
+                                    <Button
+                                    type='button'
+                                    className='btn btn-block'
+                                    onClick={deliverHandler}
+                                    >
+                                    Mark As Delivered
+                                    </Button>
+                                </ListGroup.Item>
+                                )
+                            }
                         </ListGroup>
                     </Card>
                 </Col>
