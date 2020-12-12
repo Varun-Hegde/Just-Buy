@@ -196,7 +196,7 @@ export const listOrders = () => async (dispatch,getState) => {
 
 
 //MAKE THE ORDER DELIVERED,ACCESSED ONLY BY ADMIN
-export const deliverOrder = (order) => async (dispatch,getState) => {
+export const deliverOrder = (order,status) => async (dispatch,getState) => {
     try{
         dispatch({
             type: ORDER_DELIVER_REQUEST
@@ -210,7 +210,7 @@ export const deliverOrder = (order) => async (dispatch,getState) => {
             },
         }
         const {data} = await axios.put(
-            `/api/orders/${order._id}/deliver`, 
+            `/api/orders/${order._id}/deliver?status=${status}`, 
             {},
             config
         )
@@ -228,3 +228,4 @@ export const deliverOrder = (order) => async (dispatch,getState) => {
         })
     }
 }
+

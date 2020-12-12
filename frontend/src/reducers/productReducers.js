@@ -31,7 +31,10 @@ import {
     PRODUCT_REVIEW_FAIL,
     PRODUCT_REVIEW_REQUEST,
     PRODUCT_REVIEW_RESET,
-    PRODUCT_REVIEW_SUCCESS
+    PRODUCT_REVIEW_SUCCESS,
+    PRODUCT_QUANTITY_FAIL,
+    PRODUCT_QUANTITY_REQUEST,
+    PRODUCT_QUANTITY_SUCCESS
 } from '../constants/productConstants'
 
 
@@ -287,6 +290,33 @@ export const productReviewDetailReducer = (state = { review: {} }, action) => {
             }
         case PRODUCT_REVIEW_RESET:
             return { product:{}}
+        default:
+            return state
+    }
+}
+
+//Update product quantity when order is placed
+export const productQuantityReducer = (state = { }, action) => {
+    switch(action.type){
+        case PRODUCT_QUANTITY_REQUEST:
+            return {
+                loading: true,
+            } 
+            
+        case PRODUCT_QUANTITY_SUCCESS:
+            
+            return{
+                loading:false,
+                error:null,
+                info:action.payload
+            }
+
+        case PRODUCT_QUANTITY_FAIL:
+            return{
+                loading: false,
+                error: action.payload
+            }
+        
         default:
             return state
     }

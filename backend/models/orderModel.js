@@ -60,6 +60,11 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    orderStatus:{
+      type: String,
+      required: true,
+      default: 'Ordered',
+    },
     paidAt: {
       type: Date,
     },

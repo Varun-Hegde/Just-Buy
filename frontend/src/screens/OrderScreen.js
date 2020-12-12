@@ -1,16 +1,18 @@
-import React,{useEffect} from 'react'
+import React,{useState ,useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {Button,Row,Col,ListGroup,Image,Card} from 'react-bootstrap'
+import {Button,Row,Col,ListGroup,Image,Card,Form} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {getOrderDetails,payOrder,deliverOrder} from '../actions/orderActions'
+import {updateProductQuantity} from '../actions/productActions'
 import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from '../constants/orderConstants'
 import Meta from '../components/Meta'
 
 
 const OrderScreen = ({match,history}) => {
 
+    const [changeOrderStatus,setchangeOrderStatus] = useState('Ordered')
     const orderId = match.params.id
     const orderDetails = useSelector(state => state.orderDetails)
     const {order,error,loading} = orderDetails
@@ -35,6 +37,9 @@ const OrderScreen = ({match,history}) => {
             dispatch({type: ORDER_DELIVER_RESET})
             dispatch(getOrderDetails(orderId))
         }
+        if(order){
+            setchangeOrderStatus(order.orderStatus)
+        }
          
     },[dispatch,orderId,order,successPay,successDeliver,history,userInfo])
     
@@ -54,13 +59,14 @@ const OrderScreen = ({match,history}) => {
                 email_address : order.user.email,
             }
         dispatch(payOrder(orderId,payMentResult))
+        dispatch(updateProductQuantity(order.orderItems))
         dispatch({type: ORDER_PAY_RESET})
         dispatch({type: ORDER_DELIVER_RESET})
         dispatch(getOrderDetails(orderId))
     }
 
     const deliverHandler = () => {
-        dispatch(deliverOrder(order))
+        dispatch(deliverOrder(order,changeOrderStatus))
     }
 
 
@@ -81,8 +87,8 @@ const OrderScreen = ({match,history}) => {
                                 {order.shippingAddress.postalCode},{' '}
                                 {order.shippingAddress.country}
                             </p>
-                            {order.isDelivered ? <Message variant='success'>Delivered on {order.deliveredAt}</Message> : (
-                                <Message variant='danger'>Not Delivered</Message>
+                            {!order.isPaid ? <Message variant='info'> Order Status: Payment Pending</Message> : (
+                                <Message variant='info'>Order Status: {order.orderStatus}</Message>
                             )}
                         </ListGroup.Item>
 
@@ -174,16 +180,37 @@ const OrderScreen = ({match,history}) => {
                                 userInfo.isAdmin &&
                                 order.isPaid &&
                                 !order.isDelivered && (
-                                <ListGroup.Item>
+                                <>
+                                    <Form className="m-3" onSubmit={deliverHandler}>
+                                    <Form.Group controlId="changeOrderStatus">
+                                        <Form.Label>Select Order Status</Form.Label>
+                                        <Form.Control 
+                                            as="select" 
+                                            custom
+                                            value={changeOrderStatus}
+                                            onChange={(e) => setchangeOrderStatus(e.target.value)}
+                                        >
+                                        <option value='Ordered'>Ordered</option>
+                                        <option value='Packed'>Packed</option>
+                                        <option value='Shipped'>Shipped</option>
+                                        <option value='Out For Delivery'>Out For Delivery</option>
+                                        <option value='Delivered'>Delivered</option>
+                                        </Form.Control>
+                                    </Form.Group>
                                     <Button
-                                    type='button'
-                                    className='btn btn-block'
-                                    onClick={deliverHandler}
-                                    >
-                                    Mark As Delivered
-                                    </Button>
-                                </ListGroup.Item>
+                                        type='submit'
+                                        className='btn btn-block'
+                                       
+                                        >
+                                        Change Order Status
+                                        </Button>
+                                    </Form>
+                                    
+                                        
+                                    
+                                </>
                                 )
+                                
                             }
                         </ListGroup>
                     </Card>

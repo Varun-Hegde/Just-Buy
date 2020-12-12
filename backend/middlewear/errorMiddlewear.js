@@ -5,6 +5,7 @@ module.exports.notFound = (req,res,next) => {
     next(error);
 }
 
+
 //ERROR HANDLER
 module.exports.errorHandler = (err,req,res,next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode
@@ -14,3 +15,4 @@ module.exports.errorHandler = (err,req,res,next) => {
         stack: process.env.NODE_ENV === 'production' ? null : err.stack
     })
 }
+

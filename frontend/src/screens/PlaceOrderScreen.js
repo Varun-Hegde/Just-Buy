@@ -6,6 +6,8 @@ import Message from '../components/Message'
 import CheckOutSteps from '../components/CheckoutSteps'
 import {createOrder} from '../actions/orderActions'
 import Meta from '../components/Meta'
+import {clearCart} from '../actions/cartActions'
+
 const PlaceOrderScreen = ({history}) => {
 
 
@@ -47,6 +49,7 @@ const PlaceOrderScreen = ({history}) => {
             shippingPrice: cart.shippingPrice,
             totalPrice: cart.totalPrice,
         }))
+        dispatch(clearCart())
     }
     return (
         <>

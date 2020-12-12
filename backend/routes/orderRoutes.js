@@ -131,20 +131,22 @@ router.put(
     asyncHandler(async (req,res) => {
         const order = await Order.findById(req.params.id)
   
-        //console.log(req.body);
-        if(order){       
-            order.isDelivered = true
-            order.deliveredAt = Date.now()
-              
+        if(order){     
+            order.orderStatus = req.query.status
+            if(order.orderStatus === 'Delivered'){
+                order.isDelivered = true
+                order.deliveredAt = Date.now()
+            }
             const updatedOrder = await order.save()
             res.json(updatedOrder)
         }else{
             res.status(404)
             throw new Error('Order not found')
         }
-
     })
 )
+
+
 
 
 module.exports = router   

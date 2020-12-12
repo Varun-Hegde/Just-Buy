@@ -78,6 +78,8 @@ const ProductListScreen = ({history,match}) => {
                         <th>PRICE</th>
                         <th>CATEGORY</th>
                         <th>BRAND</th>
+                        <th>No. of pieces sold</th>
+                        <th>REVENUE GENERATED</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,6 +94,12 @@ const ProductListScreen = ({history,match}) => {
                                 {product.category}
                             </td>
                             <td>{product.brand}</td>
+                            <td>
+                                {product.totalPiecesSold}
+                            </td>
+                            <td>
+                                {product.revenueGenerated}
+                            </td>
                             <td>
                             <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                 <Button variant='light' className='btn-sm'>

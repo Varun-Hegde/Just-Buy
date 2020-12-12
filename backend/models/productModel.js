@@ -57,6 +57,16 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    totalPiecesSold:{
+      type:Number,
+      required: true,
+      default:0
+    },
+    revenueGenerated:{
+      type:Number,
+      required: true,
+      default:0
+    }
   },
   {
     timestamps: true,

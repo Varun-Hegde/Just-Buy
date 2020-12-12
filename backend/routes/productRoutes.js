@@ -9,6 +9,36 @@ const Review = require('../models/reviewModel')
 //IMPORT MIDDLEWEAR 
 const {protect, isAdmin,isReviewAuthor} = require('../middlewear/authMiddlewear'); 
 
+
+//   @desc   Update product quantity when order is placed
+//   @route  PUT /api/products/reduceQty
+//   @access Public
+router.put(
+    '/reduceqty',
+    asyncHandler(async (req,res) => {
+        const orderItems = req.body;
+        orderItems.map(async (order) => {
+            
+            const product = await Product.findById(order.product);
+            if(!product){
+                res.status(404)
+                throw new Error("Product not found")
+            }
+            const qty = order.qty;
+            product.countInStock -=qty;
+            product.totalPiecesSold += qty;
+            product.revenueGenerated += order.price * qty;
+            product.revenueGenerated = product.revenueGenerated.toFixed(2);
+            const updatedProduct = await product.save();
+            console.log("ordered items are:",order)
+        })
+        res.json({
+            message : "updated products"
+        })
+    })
+)
+
+
 //   @desc   Fetch all products
 //   @route  GET /api/products
 //   @access Public
@@ -236,4 +266,7 @@ router.delete(
         res.json({message: "Review removed"})
     })
 )
+
+
+
 module.exports = router
