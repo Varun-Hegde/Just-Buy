@@ -7,6 +7,7 @@ import CheckOutSteps from '../components/CheckoutSteps'
 import {createOrder} from '../actions/orderActions'
 import Meta from '../components/Meta'
 import {clearCart} from '../actions/cartActions'
+import NumberFormat from 'react-number-format'
 
 const PlaceOrderScreen = ({history}) => {
 
@@ -97,7 +98,9 @@ const PlaceOrderScreen = ({history}) => {
                                                     </Link>
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.qty} x ${item.price} = ${findPrice(item.qty,item.price)}
+                                                    {item.qty} x
+                                                    <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={item.price}/>
+                                                    = <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={findPrice(item.qty,item.price)}/>
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -118,19 +121,25 @@ const PlaceOrderScreen = ({history}) => {
                             <ListGroup.Item>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>${cart.itemsPrice}</Col>
+                                <Col>
+                                <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={cart.itemsPrice}/>
+                                </Col>
                             </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping</Col>
-                                    <Col>${cart.shippingPrice}</Col>
+                                    <Col>
+                                    <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={cart.shippingPrice}/>
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>${cart.totalPrice}</Col>
+                                    <Col>
+                                        <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={cart.totalPrice}/>
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>

@@ -4,11 +4,11 @@ import {Button,Row,Col,ListGroup,Image,Card,Form} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {getOrderDetails,payOrder,deliverOrder} from '../actions/orderActions'
+import {getOrderDetails,payOrder,deliverOrder,cancelOrder} from '../actions/orderActions'
 import {updateProductQuantity} from '../actions/productActions'
-import { ORDER_PAY_RESET,ORDER_DELIVER_RESET } from '../constants/orderConstants'
+import { ORDER_PAY_RESET,ORDER_DELIVER_RESET, ORDER_CANCEL_RESET } from '../constants/orderConstants'
 import Meta from '../components/Meta'
-
+import NumberFormat from 'react-number-format'
 
 const OrderScreen = ({match,history}) => {
 
@@ -41,9 +41,12 @@ const OrderScreen = ({match,history}) => {
             setchangeOrderStatus(order.orderStatus)
         }
          
-    },[dispatch,orderId,order,successPay,successDeliver,history,userInfo])
+    },[dispatch,order,successPay,successDeliver,history,userInfo])
     
-    
+    useEffect(() => {
+        dispatch(getOrderDetails(orderId))
+    },[orderId])
+
     if(!loading){
         const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
@@ -69,6 +72,12 @@ const OrderScreen = ({match,history}) => {
         dispatch(deliverOrder(order,changeOrderStatus))
     }
 
+    const cancelOrderHandler = () => {
+        //console.log("Cancel order clicked:",order._id);
+        dispatch(cancelOrder(order._id));
+        dispatch({type: ORDER_CANCEL_RESET})
+        dispatch(getOrderDetails(order._id))
+    }
 
     return loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
         <>
@@ -124,7 +133,9 @@ const OrderScreen = ({match,history}) => {
                                                     </Link>
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.qty} x ${item.price} = ${ (item.qty * item.price).toFixed(2)}
+                                                    {item.qty} x 
+                                                    <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={item.price}/>
+                                                    = <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={(item.qty * item.price).toFixed(2)}/>
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -145,40 +156,50 @@ const OrderScreen = ({match,history}) => {
                             <ListGroup.Item>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>${order.itemsPrice}</Col>
+                                <Col>
+                                        <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={order.itemsPrice}/>
+                                </Col>
                             </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping</Col>
-                                    <Col>${order.shippingPrice}</Col>
+                                    <Col><NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={order.shippingPrice}/></Col>
                                 </Row>
                             </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col>Tax</Col>
-                                    <Col>${order.taxPrice}</Col>
-                                </Row>
-                            </ListGroup.Item>
+                            
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>${order.totalPrice}</Col>
+                                    <Col>
+                                        <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={order.totalPrice}/>
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>  
-                            {!order.isPaid && (
+                            {!order.isPaid && userInfo._id === order.user._id && (
                                 <ListGroup.Item>
                                     {loadingPay && (<Loader />)}
                                     <Button 
+                                        className='btn btn-block'
                                         onClick = {successPaymentHandler}>
                                             Confirm Payment
+                                    </Button>
+                                </ListGroup.Item>
+                            ) }
+                            {!order.isDelivered && order.orderStatus!=='Delivered' && order.isCancelled == false && order.isPaid && (
+                                <ListGroup.Item>
+                                    {loadingPay && (<Loader />)}
+                                    <Button 
+                                        className='btn btn-block'
+                                        onClick = {cancelOrderHandler}>
+                                            Cancel Order
                                     </Button>
                                 </ListGroup.Item>
                             ) }
                             {loadingDeliver && <Loader />}     
                             {userInfo &&
                                 userInfo.isAdmin &&
-                                order.isPaid &&
+                                order.isPaid && !order.isCancelled &&
                                 !order.isDelivered && (
                                 <>
                                     <Form className="m-3" onSubmit={deliverHandler}>

@@ -69,19 +69,7 @@ const PaymentScreen = ({history}) => {
                                 label="Credit Card"
                             />
                         </Row>
-                        <Row>
-                            <FormControlLabel
-                                control={
-                                <Checkbox
-                                    checked={state.checkedB}
-                                    onChange={ (e) => handleChange(e,"Cash On Delivery") }
-                                    name="checkedB"
-                                    color="primary"
-                                />
-                                }
-                                label="Cash On Delivery"
-                            />
-                        </Row>
+                        
                         <Row>
                             <FormControlLabel
                                 control={

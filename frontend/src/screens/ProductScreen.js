@@ -9,6 +9,7 @@ import Message from '../components/Message'
 import Meta from '../components/Meta'
 import {listProductDetails,createProductReview,deleteProductReview} from '../actions/productActions'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants'
+import NumberFormat from 'react-number-format'
 
 const ProductScreen = ({ match,history }) => {
   
@@ -88,7 +89,9 @@ const ProductScreen = ({ match,history }) => {
                 text={`${product.numReviews} reviews`}
               />
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Price:
+              <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.price}/>
+              </ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
         </Col>
@@ -99,7 +102,7 @@ const ProductScreen = ({ match,history }) => {
                 <Row>
                   <Col>Price:</Col>
                   <Col>
-                    <strong>${product.price}</strong>
+                    <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.price}/>
                   </Col>
                 </Row>
               </ListGroup.Item>

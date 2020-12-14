@@ -7,6 +7,7 @@ import Message from '../components/Message'
 import {listProducts,deleteProduct,createProduct} from '../actions/productActions'
 import {PRODUCT_CREATE_RESET} from '../constants/productConstants'
 import Meta from '../components/Meta'
+import NumberFormat from 'react-number-format'
 
 const ProductListScreen = ({history,match}) => {
     
@@ -89,16 +90,16 @@ const ProductListScreen = ({history,match}) => {
                             <LinkContainer className="onhover" to={`/product/${product._id}`}>
                                 <td>{product.name}</td>
                             </LinkContainer>
-                            <td>${product.price}</td>
+                            <td><NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.price}/></td>
                             <td>
                                 {product.category}
                             </td>
                             <td>{product.brand}</td>
                             <td>
-                                {product.totalPiecesSold}
+                                <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.revenueGenerated}/>
                             </td>
                             <td>
-                                {product.revenueGenerated}
+                                {}
                             </td>
                             <td>
                             <LinkContainer to={`/admin/product/${product._id}/edit`}>

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import {Row,Col,ListGroup,Image,Form,Button,Card} from 'react-bootstrap'
 import Meta from '../components/Meta'
 import {useSelector,useDispatch} from 'react-redux'
-
+import NumberFormat from 'react-number-format'
 import {addToCart,removeFromCart} from '../actions/cartActions'
 
 const CartScreen = ({match,location,history}) => {
@@ -49,7 +49,7 @@ const CartScreen = ({match,location,history}) => {
                                 <Col md={3}>
                                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                                 </Col>
-                                <Col md={2}>${item.price}</Col>
+                                <Col md={2}><NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={item.price}/></Col>
                                 <Col md={2}>
                                         <Form.Control as='select' value={item.qty} onChange={(e) => dispatch(addToCart(item.product,Number(e.target.value)))}>
                                             {[...Array(item.countInStock).keys()].map(
@@ -78,9 +78,12 @@ const CartScreen = ({match,location,history}) => {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Subtotal ({cartItems.reduce((acc,cur) => acc + cur.qty,0)}) items</h2>
-                            ${cartItems
+                            <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={
+                                cartItems
                             .reduce((acc,cur) => acc + cur.qty * cur.price,0)
-                            .toFixed(2)}
+                            .toFixed(2)
+                            }/>
+                            
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Button type='button' className='btn-block' disabled = {cartItems.length === 0} onClick={checkOutHandler}>

@@ -6,6 +6,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {listOrders} from '../actions/orderActions'
 import Meta from '../components/Meta'
+import NumberFormat from 'react-number-format'
 
 const OrderListScreen = ({history}) => {
     
@@ -55,7 +56,7 @@ const OrderListScreen = ({history}) => {
                              {order.createdAt.substring(0,10)}
                             </td>
                             <td>
-                            ${order.totalPrice}
+                            <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={order.totalPrice}/>
                             </td>
                             
                             <td>

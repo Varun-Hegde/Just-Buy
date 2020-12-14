@@ -9,6 +9,8 @@ import { listProductDetails,updateProduct} from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import axios from 'axios'
 import Meta from '../components/Meta'
+
+
 const ProductEditScreen = ({ match, history,location }) => {
   const productId = match.params.id
 

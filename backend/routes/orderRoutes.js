@@ -146,7 +146,34 @@ router.put(
     })
 )
 
+//   @desc   Cancel an order which is not yet delivered
+//   @route  PUT /api/orders/cancelorder
+//   @access Private
+router.put(
+    '/:id/cancelorder',
+    protect,
+    asyncHandler(async (req,res) => {
+        const order = await Order.findById(req.params.id)
+        console.log("After getting order");
 
+        if(order){
+            if(order.isDelivered){
+                console.log("If order is delivered");
+                res.status(405);
+                throw new Error("Aldready delivered, Can't cancel now");
+            }else{
+                console.log("Initiate cancel");
+                order.orderStatus = "Cancelled,Refund initiated"
+                order.isCancelled = true
+                const updatedOrder = await order.save()
+                res.json(updatedOrder)
+            }
+        }else{
+            res.status(404)
+            throw new Error('Order not found')
+        }
+    })
+)
 
 
 module.exports = router   

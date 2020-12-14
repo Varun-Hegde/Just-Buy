@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
+
 //GET THE CONNECTION TO MONGO
 const connectDB = require('./config/db')
 
@@ -17,8 +18,7 @@ const uploadRoutes = require('./routes/uploadRoutes')
 const {notFound,errorHandler} = require('./middlewear/errorMiddlewear')
 
 dotenv.config()
- 
-const app = express()
+const app = express() 
 
 //CONNECT TO DATABASE
 connectDB()

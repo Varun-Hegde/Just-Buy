@@ -53,3 +53,8 @@ input:focus {
   flex-direction: column;
   justify-content: left;
 }
+
+.noborder {
+  border: none;
+  background-color: none;
+}

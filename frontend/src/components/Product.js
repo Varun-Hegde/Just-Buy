@@ -2,8 +2,11 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 import Rating from './Rating'
 import {Link} from 'react-router-dom'
+import NumberFormat from 'react-number-format'
 
 const Product = ({ product }) => {
+
+
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/product/${product._id}`}>
@@ -27,10 +30,11 @@ const Product = ({ product }) => {
           />
         </Card.Text>
 
-        <Card.Text as='h3'>${product.price}</Card.Text>
+        <Card.Text as='h3'><NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.price}/></Card.Text>
       </Card.Body>
     </Card>
   )
 }
 
 export default Product
+
