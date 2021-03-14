@@ -96,10 +96,10 @@ const ProductListScreen = ({history,match}) => {
                             </td>
                             <td>{product.brand}</td>
                             <td>
-                                <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.revenueGenerated}/>
+                                {product.totalPiecesSold}
                             </td>
                             <td>
-                                {}
+                                <NumberFormat className="noborder" thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={product.revenueGenerated}/>
                             </td>
                             <td>
                             <LinkContainer to={`/admin/product/${product._id}/edit`}>

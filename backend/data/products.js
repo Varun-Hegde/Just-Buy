@@ -90,16 +90,27 @@ Set in 2077, the game is set in an intriguing dystopian place called night city 
     rating: 3.5,
     numReviews: 10,
   },
+  
   {
     
-    name: `Armani Exchange Men's Stainless Steel Watch`,
-    image: '/images/watch.jpg',
+    name: `New Apple iPad Pro (11-inch, Wi-Fi, 1TB) - Space Grey (2nd Generation)`,
+    image: '/images/ipad.jpg',
     description:
-      'Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small space',
-    brand: 'Armani Exchange',
-    category: 'Watch',
-    price: 15495,
-    countInStock: 0,
+      `11-inch (27.94 cms) edge-to-edge Liquid Retina display with ProMotion, True Tone, and P3 wide color
+A12Z Bionic chip with Neural Engine\n
+12MP Wide camera, 10MP Ultra Wide camera, and LiDAR Scanner\n
+7MP TrueDepth front camera\n
+Face ID for secure authentication and Apple Pay\n
+Four speaker audio and five studio-quality microphones\n
+802.11ax Wi-Fi 6\n
+Up to 10 hours of battery life\n
+USB-C connector for charging and accessories\n
+Support for Magic Keyboard, Smart Keyboard Folio, and Apple Pencil\n
+      `,
+    brand: 'Apple',
+    category: 'Mobile and Tablets',
+    price: 116900,
+    countInStock: 10,
     rating: 4,
     numReviews: 12,
   },

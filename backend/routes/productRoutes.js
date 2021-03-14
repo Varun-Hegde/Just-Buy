@@ -9,6 +9,11 @@ const Review = require('../models/reviewModel')
 //IMPORT MIDDLEWEAR 
 const {protect, isAdmin,isReviewAuthor} = require('../middlewear/authMiddlewear'); 
 
+router.get('/top',asyncHandler(async (req,res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+    
+    res.json(products)
+}))
 
 //   @desc   Update product quantity when order is placed
 //   @route  PUT /api/products/reduceQty
@@ -45,16 +50,24 @@ router.put(
 router.get(
     '/',
     asyncHandler( async (req,res) => {
-        const keyword = req.query.keyword ? {
-            name: {
+        const pageSize = 6
+        const page = Number(req.query.pageNumber) || 1
+
+        const keyword = req.query.keyword
+            ? {
+                name: {
                 $regex: req.query.keyword,
-                $options: 'i'  //CASE INSENSITIVE
+                $options: 'i',
+                },
             }
-        } : {}
-        const products = await Product.find({...keyword})
-        
-        res.json(products)
-    })
+            : {}
+
+        const count = await Product.countDocuments({ ...keyword })
+        const products = await Product.find({ ...keyword })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1))
+
+        res.json({ products, page, pages: Math.ceil(count / pageSize) })})
 )
 
 

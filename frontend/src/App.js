@@ -48,6 +48,8 @@ function App() {
               <Route path='/admin/orderlist' component={OrderListScreen} />
               <Route path='/product/:id/reviews/:reviewId/edit' component={ProductReviewEditScreen} />
               <Route path='/search/:keyword' component={HomeScreen} />
+              <Route path='/page/:pageNumber' component={HomeScreen} exact />
+              <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
             </Switch>
           </Container>
         </main>

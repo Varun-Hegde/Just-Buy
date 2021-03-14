@@ -3,6 +3,8 @@ const  router = express.Router()
 
 //IMPORT MODEL
 const Order = require('../models/orderModel') 
+const Address = require('../models/addressModel')
+const Payment = require('../models/paymentModel')
 
 const asyncHandler = require('express-async-handler')
 
@@ -42,10 +44,19 @@ router.post(
             throw new Error("No order Items")
             return;
         }else{
+            const orderAddress = new Address({
+                address: shippingAddress.address,
+                city: shippingAddress.city,
+                postalCode: shippingAddress.postalCode,
+                country: shippingAddress.country
+            })
+            const savedAddress = await orderAddress.save()
+            
+            
             const order = new Order({
                 orderItems,
                 user:  req.user._id,
-                shippingAddress,
+                shippingAddress : savedAddress,
                 paymentMethod,
                 itemsPrice,
                 taxPrice,
@@ -67,7 +78,7 @@ router.get(
     '/:id',
     protect,
     asyncHandler(async (req,res) => {
-        const order = await Order.findById(req.params.id).populate('user','name email')
+        const order = await Order.findById(req.params.id).populate('user','name email').populate('paymentResult').populate('shippingAddress')
 
         if(order){
             res.json(order)
@@ -87,17 +98,19 @@ router.put(
     '/:id/pay',
     protect,
     asyncHandler(async (req,res) => {
-        const order = await Order.findById(req.params.id)
+        const order = await Order.findById(req.params.id).populate('paymentResult').populate('shippingAddress')
 
         if(order){       
             order.isPaid = true
             order.paidAt = Date.now()
-            order.paymentResult = {
+            const orderPayment = new Payment ({
                 id:req.body.id,
                 status: req.body.status,
                 update_time: req.body.update_time,
                 email_address: req.body.email_address
-            }
+            })
+            const savedPayment = await orderPayment.save()
+            order.paymentResult = savedPayment
             const updatedOrder = await order.save()
             res.json(updatedOrder)
         }else{
@@ -116,7 +129,7 @@ router.get(
     protect,
     isAdmin, 
     asyncHandler(async (req,res) => {
-        const orders = await Order.find({}).populate('user','id name email')
+        const orders = await Order.find({}).populate('user','id name email').populate('paymentResult').populate('shippingAddress')
         res.json(orders)
     })
 )
@@ -129,7 +142,7 @@ router.put(
     protect,
     isAdmin,
     asyncHandler(async (req,res) => {
-        const order = await Order.findById(req.params.id)
+        const order = await Order.findById(req.params.id).populate('paymentResult').populate('shippingAddress')
   
         if(order){     
             order.orderStatus = req.query.status
@@ -153,7 +166,7 @@ router.put(
     '/:id/cancelorder',
     protect,
     asyncHandler(async (req,res) => {
-        const order = await Order.findById(req.params.id)
+        const order = await Order.findById(req.params.id).populate('paymentResult').populate('shippingAddress')
         console.log("After getting order");
 
         if(order){

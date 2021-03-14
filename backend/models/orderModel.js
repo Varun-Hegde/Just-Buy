@@ -2,6 +2,8 @@
 const mongoose = require('mongoose')
 const User = require('./userModel')
 const Product = require('./productModel')
+const Address = require('./addressModel')
+const Payment = require('./paymentModel')
 
 const orderSchema = mongoose.Schema(
   {
@@ -25,10 +27,9 @@ const orderSchema = mongoose.Schema(
     ],
     
     shippingAddress: {
-      address: { type: String, required: true },
-      city: { type: String, required: true },
-      postalCode: { type: String, required: true },
-      country: { type: String, required: true },
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref:'Address'
     },
     paymentMethod: {
       type: String,
@@ -40,10 +41,8 @@ const orderSchema = mongoose.Schema(
       default: 0.0
     },
     paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Payment'
     },
     shippingPrice: {
       type: Number,
