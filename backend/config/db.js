@@ -17,4 +17,3 @@ const connectDB = async () => {
 
 module.exports = connectDB; 
 
-// mongodb+srv://varun:varun@ekart-oms.ssj8p.mongodb.net/test
