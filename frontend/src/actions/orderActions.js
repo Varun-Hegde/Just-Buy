@@ -22,8 +22,7 @@ import{
     ORDER_CANCEL_RESET,
     ORDER_CANCEL_SUCCESS,
 } from '../constants/orderConstants'
-import axios from 'axios'
-
+import axios from '../axios'
 //CREATE A NEW ORDER
 export const createOrder = (order) => async (dispatch,getState) => {
     try{

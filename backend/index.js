@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
+const cors = require('cors')
 
 //GET THE CONNECTION TO MONGO
 const connectDB = require('./config/db')
@@ -19,6 +20,10 @@ const {notFound,errorHandler} = require('./middlewear/errorMiddlewear')
 
 dotenv.config()
 const app = express() 
+
+//CORS
+app.use(cors({credentials: true, origin: true})) 
+
 
 //CONNECT TO DATABASE
 connectDB()

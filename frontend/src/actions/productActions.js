@@ -34,8 +34,7 @@ import {
     PRODUCT_TOP_FAIL,
 } from '../constants/productConstants'
 
-import axios from 'axios'
-
+import axios from '../axios'
 //GET DETAILS OF ALL THE PRODUCTS 
 export const listProducts = (keyword='',pageNumber='') => async(dispatch) => {
     try{
