@@ -7,7 +7,7 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { listProductDetails,updateProduct} from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import axios from 'axios'
+import axios from '../axios'
 import Meta from '../components/Meta'
 
 
@@ -87,8 +87,8 @@ const ProductEditScreen = ({ match, history,location }) => {
       }
 
       const { data } = await axios.post('/api/upload', formData, config)
-
-      setImage(data)
+      console.log("Image upload",data);
+      setImage(data.filePath[0])
       setUploading(false)
     } catch (error) {
       //console.error(error)
@@ -136,12 +136,12 @@ const ProductEditScreen = ({ match, history,location }) => {
 
             <Form.Group controlId='image'>
               <Form.Label>Image</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 type='text'
                 placeholder='Enter image url'
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
+              ></Form.Control> */}
               <Form.File
                 id='image-file'
                 label='Choose File'

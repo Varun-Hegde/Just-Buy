@@ -1,5 +1,5 @@
 const express = require('express')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv').config()
 const path = require('path')
 const cors = require('cors')
 
@@ -18,12 +18,11 @@ const uploadRoutes = require('./routes/uploadRoutes')
 //IMPORT ERROR HANDLER AND PAGE NOT FOUND 
 const {notFound,errorHandler} = require('./middlewear/errorMiddlewear')
 
-dotenv.config()
+
 const app = express() 
 
 //CORS
 app.use(cors({credentials: true, origin: true})) 
-
 
 //CONNECT TO DATABASE
 connectDB()
@@ -33,7 +32,7 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
 app.use(express.json())
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+//app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 //ROUTES
 app.get('/', (req, res) => {
